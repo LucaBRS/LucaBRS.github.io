@@ -18,6 +18,7 @@
     <a href="#experience">Experience</a>
     <a href="#projects">Projects</a>
     <a href="#about">About</a>
+    <a href="cv.html">CV</a>
   </div>
 </nav>
 
@@ -258,8 +259,12 @@
         </div>
         <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:1.2rem">
           <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#5a6180;letter-spacing:.08em;margin-bottom:.5rem">EDUCATION</div>
-          <div style="font-size:14px;color:var(--white);font-weight:500;margin-bottom:.3rem">Telecommunication & Computer Science Engineering</div>
-          <div style="font-size:12px;color:var(--muted)">Bachelor's degree</div>
+          <div style="font-size:14px;color:var(--white);font-weight:500;margin-bottom:.2rem">Executive Master in Data Science</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:.8rem">Rome Business School · 2022 – 2023</div>
+          <div style="font-size:14px;color:var(--white);font-weight:500;margin-bottom:.2rem">MSc Telecommunication &amp; Software Engineering</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:.8rem">Politecnico di Milano · 2019 – 2022</div>
+          <div style="font-size:14px;color:var(--white);font-weight:500;margin-bottom:.2rem">BSc Ingegneria delle Telecomunicazioni</div>
+          <div style="font-size:12px;color:var(--muted)">Politecnico di Milano · 2012 – 2017</div>
         </div>
       </div>
     </div>
@@ -270,7 +275,10 @@
 <section id="experience" style="padding-top:0">
   <div class="section-label">Career</div>
   <div class="section-title">Experience</div>
-  <div class="section-sub">Consulting across aerospace, insurance, and enterprise data</div>
+  <div class="section-sub" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+    <span>Consulting across aerospace, insurance, smart metering and telecom</span>
+    <a href="cv.html" class="btn btn-ghost" style="font-size:13px;padding:.45rem 1rem;white-space:nowrap">↓ Download CV</a>
+  </div>
   <div class="exp-list">
     <div class="exp-card open" onclick="toggleExp(this)">
       <div class="exp-header">
@@ -279,7 +287,7 @@
           <div class="exp-co">Tinvention · Thales Alenia Space</div>
         </div>
         <div style="display:flex;gap:1rem;align-items:center">
-          <div class="exp-period">2022 – present</div>
+          <div class="exp-period">Dec 2023 – Present</div>
           <div class="exp-toggle">+</div>
         </div>
       </div>
@@ -306,11 +314,11 @@
     <div class="exp-card" onclick="toggleExp(this)">
       <div class="exp-header">
         <div>
-          <div class="exp-role">Data Engineer</div>
+          <div class="exp-role">Data Engineer (Junior)</div>
           <div class="exp-co">Tinvention · Generali Insurance</div>
         </div>
         <div style="display:flex;gap:1rem;align-items:center">
-          <div class="exp-period">2022</div>
+          <div class="exp-period">Mar – Nov 2023</div>
           <div class="exp-toggle">+</div>
         </div>
       </div>
@@ -338,7 +346,7 @@
           <div class="exp-co">Tinvention</div>
         </div>
         <div style="display:flex;gap:1rem;align-items:center">
-          <div class="exp-period">6 months</div>
+          <div class="exp-period">Nov 2022 – Feb 2023</div>
           <div class="exp-toggle">+</div>
         </div>
       </div>
@@ -358,6 +366,58 @@
         </div>
       </div>
     </div>
+    <div class="exp-card" onclick="toggleExp(this)">
+      <div class="exp-header">
+        <div>
+          <div class="exp-role">Telecommunications Software Engineer</div>
+          <div class="exp-co">2i Rete Gas S.p.A · Smart Metering</div>
+        </div>
+        <div style="display:flex;gap:1rem;align-items:center">
+          <div class="exp-period">Nov 2021 – Nov 2022</div>
+          <div class="exp-toggle">+</div>
+        </div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-content">
+          <div class="exp-item">Defined technical specifications for Electronic Water Meter systems and LoRaWAN Data Concentrators (868MHz network)</div>
+          <div class="exp-item">Planned RF networks using Python-based coverage calculation models including Ericsson signal degradation models</div>
+          <div class="exp-item">Applied EU directives (MID, ATEX, RED) and Italian legislation (AEEG) in the smart water metering domain</div>
+          <div class="exp-item">Laboratory testing, database testing, and technology scouting</div>
+          <div class="exp-tools">
+            <span class="tool-badge">Python</span>
+            <span class="tool-badge">LoRaWAN</span>
+            <span class="tool-badge">RF Planning</span>
+            <span class="tool-badge">SQL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-card" onclick="toggleExp(this)">
+      <div class="exp-header">
+        <div>
+          <div class="exp-role">Telecommunications Engineer</div>
+          <div class="exp-co">ALTEN Italia · Vodafone NOC</div>
+        </div>
+        <div style="display:flex;gap:1rem;align-items:center">
+          <div class="exp-period">Mar 2017 – Aug 2018</div>
+          <div class="exp-toggle">+</div>
+        </div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-content">
+          <div class="exp-item">Network infrastructure supervision at Vodafone's Network Operation Center for GSM, UMTS, and LTE mobile networks</div>
+          <div class="exp-item">Network performance analysis, KPI reporting, and coordination with vendors (ALU, Ericsson, Huawei, Nokia)</div>
+          <div class="exp-item">Internship → full role: Vodafone Core &amp; Backbone governance, fixed and mobile network monitoring and incident management</div>
+          <div class="exp-tools">
+            <span class="tool-badge">GSM/UMTS/LTE</span>
+            <span class="tool-badge">KPI Reporting</span>
+            <span class="tool-badge">BMC Remedy</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -442,7 +502,7 @@
   <div class="footer-links">
     <a href="https://github.com/LucaBRS">github.com/LucaBRS</a>
     <a href="https://www.linkedin.com/in/luca-barsottini/">LinkedIn</a>
-    <a href="mailto:luca.barsottini@outlook.it">Email</a>
+    <a href="mailto:luca.barsottini.work@gmail.com">Email</a>
   </div>
   <div class="footer-note">Data engineer who makes sure the work actually changes how people think.</div>
 </footer>
