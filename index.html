@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luca — Data Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#07080d;
+  --bg2:#0d0f18;
+  --bg3:#111420;
+  --border:#1e2235;
+  --border2:#262b42;
+  --cyan:#00c8ff;
+  --cyan2:#00e5c8;
+  --text:#c8cfe8;
+  --muted:#5a6180;
+  --white:#eef0f8;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 2.5rem;border-bottom:1px solid var(--border);background:rgba(7,8,13,0.85);backdrop-filter:blur(12px)}
+.nav-logo{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--cyan);letter-spacing:0.05em}
+.nav-links{display:flex;gap:2rem}
+.nav-links a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s;letter-spacing:0.04em}
+.nav-links a:hover{color:var(--white)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:6rem 2.5rem 4rem;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;max-width:1100px;margin:0 auto;width:100%;align-items:center}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:8px}
+.hero-tag::before{content:'';display:block;width:24px;height:1px;background:var(--cyan)}
+h1{font-size:clamp(2.4rem,4vw,3.6rem);font-weight:600;color:var(--white);line-height:1.1;letter-spacing:-0.03em;margin-bottom:1.4rem}
+h1 span{color:transparent;-webkit-text-stroke:1px var(--cyan);opacity:0.7}
+.hero-desc{font-size:15px;line-height:1.8;color:var(--muted);max-width:420px;margin-bottom:2.4rem}
+.hero-desc strong{color:var(--text);font-weight:500}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap}
+.btn{font-size:13px;padding:10px 22px;border-radius:6px;text-decoration:none;letter-spacing:0.04em;transition:all .2s;cursor:pointer;border:none;font-family:'DM Sans',sans-serif}
+.btn-primary{background:var(--cyan);color:#07080d;font-weight:600}
+.btn-primary:hover{background:#2dd8ff;box-shadow:0 0 24px rgba(0,200,255,0.25)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border2)}
+.btn-ghost:hover{border-color:var(--cyan);color:var(--white)}
+
+/* PIPELINE CANVAS */
+.pipeline-wrap{position:relative}
+#pipeline-svg{width:100%;height:420px}
+
+/* TICKER BAR */
+.ticker{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:.6rem 0;overflow:hidden;background:var(--bg2)}
+.ticker-inner{display:flex;gap:3rem;white-space:nowrap;animation:tick 22s linear infinite}
+.ticker-item{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.06em}
+.ticker-item span{color:var(--cyan2)}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTIONS */
+section{padding:6rem 2.5rem;max-width:1100px;margin:0 auto;width:100%}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:.8rem}
+.section-title{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:600;color:var(--white);margin-bottom:.6rem;letter-spacing:-0.02em}
+.section-sub{font-size:14px;color:var(--muted);margin-bottom:3rem}
+
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.skill-cat{background:var(--bg2);padding:1.6rem;transition:background .2s}
+.skill-cat:hover{background:var(--bg3)}
+.cat-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--cyan);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem}
+.skill-tags{display:flex;flex-direction:column;gap:6px}
+.skill-tag{font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px}
+.skill-tag::before{content:'';display:block;width:4px;height:4px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:background .2s}
+.skill-cat:hover .skill-tag::before{background:var(--cyan)}
+
+/* STACK VIZ */
+.stack-viz{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:3rem}
+.bar-group{display:flex;flex-direction:column;gap:12px}
+.bar-item{display:flex;flex-direction:column;gap:5px}
+.bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.bar-label span:last-child{color:var(--cyan)}
+.bar-track{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--cyan),var(--cyan2));transform-origin:left;transform:scaleX(0);transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
+.bar-fill.active{transform:scaleX(1)}
+
+/* EXPERIENCE */
+.exp-list{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.exp-card{background:var(--bg2);padding:2rem;cursor:pointer;transition:background .2s;position:relative}
+.exp-card:hover{background:var(--bg3)}
+.exp-card.open{background:var(--bg3)}
+.exp-header{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.exp-role{font-size:15px;font-weight:600;color:var(--white)}
+.exp-co{font-size:12px;color:var(--cyan);font-family:'JetBrains Mono',monospace;margin-top:4px}
+.exp-period{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;white-space:nowrap}
+.exp-toggle{color:var(--muted);font-size:18px;transition:transform .3s;line-height:1}
+.exp-card.open .exp-toggle{transform:rotate(45deg)}
+.exp-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.exp-card.open .exp-body{max-height:600px}
+.exp-content{padding-top:1.4rem;display:flex;flex-direction:column;gap:8px}
+.exp-item{font-size:13px;color:var(--muted);display:flex;gap:10px;line-height:1.6}
+.exp-item::before{content:'→';color:var(--cyan);flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.exp-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.tool-badge{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);background:var(--border);padding:3px 8px;border-radius:3px;letter-spacing:0.06em}
+
+/* PROJECTS */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:0}
+.project-card{background:var(--bg2);padding:2rem;transition:background .2s;position:relative;overflow:hidden}
+.project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--cyan2));opacity:0;transition:opacity .2s}
+.project-card:hover{background:var(--bg3)}
+.project-card:hover::before{opacity:1}
+.project-status{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem}
+.status-live{color:var(--cyan2)}
+.status-wip{color:#f59e0b}
+.project-title{font-size:16px;font-weight:600;color:var(--white);margin-bottom:.6rem}
+.project-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:1.2rem}
+.project-stack{display:flex;flex-wrap:wrap;gap:5px}
+.p-tag{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);background:var(--border);padding:3px 8px;border-radius:3px}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.about-text p{font-size:15px;color:var(--muted);line-height:1.9;margin-bottom:1.2rem}
+.about-text strong{color:var(--text)}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.stat-box{background:var(--bg2);padding:1.6rem;text-align:center}
+.stat-num{font-family:'JetBrains Mono',monospace;font-size:2.2rem;font-weight:300;color:var(--white);margin-bottom:.3rem}
+.stat-num .unit{font-size:1.2rem;color:var(--cyan)}
+.stat-label{font-size:11px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:2.5rem;text-align:center}
+.footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem}
+.footer-links a{font-size:13px;color:var(--muted);text-decoration:none;font-family:'JetBrains Mono',monospace;transition:color .2s}
+.footer-links a:hover{color:var(--cyan)}
+.footer-note{font-size:12px;color:var(--border2);font-family:'JetBrains Mono',monospace}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero-grid,.about-grid,.stack-viz{grid-template-columns:1fr}
+  .pipeline-wrap{display:none}
+  nav{padding:1rem 1.5rem}
+  section{padding:4rem 1.5rem}
+  .hero{padding:5rem 1.5rem 3rem}
+  .footer-links{flex-wrap:wrap;gap:1rem}
+}
+
+/* GLOW */
+.glow{position:fixed;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(0,200,255,0.04) 0%,transparent 70%);pointer-events:none;transform:translate(-50%,-50%);transition:left .1s,top .1s;z-index:0}
+</style>
+</head>
+<body>
+
+<div class="glow" id="glow"></div>
+
+<nav>
+  <div class="nav-logo">LucaBRS<span style="color:var(--muted)">_</span></div>
+  <div class="nav-links">
+    <a href="#skills">Stack</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#about">About</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-tag">Data Engineer · Analytics</div>
+      <h1>Building pipelines<br>that <span>matter</span></h1>
+      <p class="hero-desc">
+        I work at the intersection of <strong>data and people</strong>. 
+        Most data professionals are good at building pipelines. 
+        Fewer make sure those pipelines actually change how a business thinks.
+        <br><br>
+        <strong>That's where I focus.</strong>
+      </p>
+      <div class="cta-row">
+        <a href="https://linkedin.com/in/lucabrs" class="btn btn-primary">LinkedIn ↗</a>
+        <a href="mailto:luca@email.com" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+    <div class="pipeline-wrap">
+      <svg id="pipeline-svg" viewBox="0 0 440 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="gf" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+          </filter>
+        </defs>
+
+        <!-- SOURCE NODES -->
+        <g id="src1">
+          <rect x="10" y="30" width="100" height="44" rx="6" fill="#0d0f18" stroke="#1e2235" stroke-width="1"/>
+          <text x="60" y="47" font-family="JetBrains Mono,monospace" font-size="9" fill="#5a6180" text-anchor="middle">SOURCE</text>
+          <text x="60" y="62" font-family="JetBrains Mono,monospace" font-size="11" fill="#c8cfe8" text-anchor="middle">Raw Events</text>
+        </g>
+        <g id="src2">
+          <rect x="10" y="90" width="100" height="44" rx="6" fill="#0d0f18" stroke="#1e2235" stroke-width="1"/>
+          <text x="60" y="107" font-family="JetBrains Mono,monospace" font-size="9" fill="#5a6180" text-anchor="middle">SOURCE</text>
+          <text x="60" y="122" font-family="JetBrains Mono,monospace" font-size="11" fill="#c8cfe8" text-anchor="middle">HR Data</text>
+        </g>
+        <g id="src3">
+          <rect x="10" y="150" width="100" height="44" rx="6" fill="#0d0f18" stroke="#1e2235" stroke-width="1"/>
+          <text x="60" y="167" font-family="JetBrains Mono,monospace" font-size="9" fill="#5a6180" text-anchor="middle">SOURCE</text>
+          <text x="60" y="182" font-family="JetBrains Mono,monospace" font-size="11" fill="#c8cfe8" text-anchor="middle">KPI Metrics</text>
+        </g>
+
+        <!-- PIPELINE LINES (animated) -->
+        <path id="p1" d="M110,52 C150,52 150,110 170,110" stroke="#00c8ff" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.4"/>
+        <path id="p2" d="M110,112 C140,112 140,110 170,110" stroke="#00c8ff" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.4"/>
+        <path id="p3" d="M110,172 C150,172 150,115 170,115" stroke="#00c8ff" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.4"/>
+
+        <!-- INGEST NODE -->
+        <rect x="165" y="85" width="110" height="52" rx="6" fill="#071015" stroke="#00c8ff" stroke-width="1" opacity="0.9"/>
+        <text x="220" y="105" font-family="JetBrains Mono,monospace" font-size="9" fill="#00c8ff" text-anchor="middle">INGEST</text>
+        <text x="220" y="120" font-family="JetBrains Mono,monospace" font-size="10" fill="#eef0f8" text-anchor="middle">Pub/Sub · API</text>
+        <circle cx="165" cy="111" r="3" fill="#00c8ff" opacity="0.6"/>
+
+        <!-- LINE TO TRANSFORM -->
+        <path d="M275,111 L330,111" stroke="#00c8ff" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.4"/>
+
+        <!-- TRANSFORM NODE -->
+        <rect x="325" y="78" width="110" height="66" rx="6" fill="#071015" stroke="#00e5c8" stroke-width="1" opacity="0.9"/>
+        <text x="380" y="98" font-family="JetBrains Mono,monospace" font-size="9" fill="#00e5c8" text-anchor="middle">TRANSFORM</text>
+        <text x="380" y="113" font-family="JetBrains Mono,monospace" font-size="10" fill="#eef0f8" text-anchor="middle">Dataiku · dbt</text>
+        <text x="380" y="128" font-family="JetBrains Mono,monospace" font-size="9" fill="#5a6180" text-anchor="middle">Python · Spark</text>
+        <circle cx="325" cy="111" r="3" fill="#00e5c8" opacity="0.6"/>
+
+        <!-- DOWN + OUTPUT LINES -->
+        <path d="M380,144 L380,190 L330,190" stroke="#00e5c8" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.4"/>
+        <path d="M380,144 L380,270 L330,270" stroke="#00c8ff" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.4"/>
+        <path d="M380,144 L380,350 L330,350" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.3"/>
+
+        <!-- OUTPUT NODES -->
+        <g>
+          <rect x="165" y="168" width="110" height="44" rx="6" fill="#0d0f18" stroke="#1e2235" stroke-width="1"/>
+          <text x="220" y="185" font-family="JetBrains Mono,monospace" font-size="9" fill="#5a6180" text-anchor="middle">WAREHOUSE</text>
+          <text x="220" y="200" font-family="JetBrains Mono,monospace" font-size="10" fill="#c8cfe8" text-anchor="middle">BigQuery</text>
+          <circle cx="330" cy="190" r="3" fill="#00e5c8" opacity="0.5"/>
+        </g>
+        <g>
+          <rect x="165" y="248" width="110" height="44" rx="6" fill="#0d0f18" stroke="#1e2235" stroke-width="1"/>
+          <text x="220" y="265" font-family="JetBrains Mono,monospace" font-size="9" fill="#5a6180" text-anchor="middle">DASHBOARDS</text>
+          <text x="220" y="280" font-family="JetBrains Mono,monospace" font-size="10" fill="#c8cfe8" text-anchor="middle">PowerBI</text>
+          <circle cx="330" cy="270" r="3" fill="#00c8ff" opacity="0.5"/>
+        </g>
+        <g>
+          <rect x="165" y="328" width="110" height="44" rx="6" fill="#0d0f18" stroke="#1e2235" stroke-width="1"/>
+          <text x="220" y="345" font-family="JetBrains Mono,monospace" font-size="9" fill="#5a6180" text-anchor="middle">INSIGHTS</text>
+          <text x="220" y="360" font-family="JetBrains Mono,monospace" font-size="10" fill="#c8cfe8" text-anchor="middle">Management</text>
+          <circle cx="330" cy="350" r="3" fill="#c084fc" opacity="0.5"/>
+        </g>
+
+        <!-- PARTICLES (animated dots on paths) -->
+        <circle id="dot1" r="3" fill="#00c8ff" opacity="0.9"/>
+        <circle id="dot2" r="3" fill="#00c8ff" opacity="0.9"/>
+        <circle id="dot3" r="3" fill="#00c8ff" opacity="0.9"/>
+        <circle id="dot4" r="3" fill="#00e5c8" opacity="0.9"/>
+        <circle id="dot5" r="3" fill="#00c8ff" opacity="0.9"/>
+        <circle id="dot6" r="2.5" fill="#c084fc" opacity="0.9"/>
+
+        <!-- CLOUD LABEL -->
+        <rect x="10" y="230" width="100" height="30" rx="5" fill="#111420" stroke="#1e2235"/>
+        <text x="60" y="250" font-family="JetBrains Mono,monospace" font-size="9" fill="#5a6180" text-anchor="middle">GCP · Docker · Git</text>
+        <line x1="110" y1="245" x2="165" y2="280" stroke="#1e2235" stroke-width="1" stroke-dasharray="2 3"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker">
+    <span class="ticker-item">Python <span>↑ active</span></span>
+    <span class="ticker-item">SQL <span>↑ active</span></span>
+    <span class="ticker-item">Apache Spark <span>↑ learning</span></span>
+    <span class="ticker-item">dbt <span>↑ active</span></span>
+    <span class="ticker-item">BigQuery <span>↑ active</span></span>
+    <span class="ticker-item">Dataiku <span>↑ 3yr+</span></span>
+    <span class="ticker-item">PowerBI <span>↑ active</span></span>
+    <span class="ticker-item">GCP <span>↑ active</span></span>
+    <span class="ticker-item">Docker <span>↑ active</span></span>
+    <span class="ticker-item">Pub/Sub <span>↑ active</span></span>
+    <span class="ticker-item">Pandas <span>↑ daily</span></span>
+    <span class="ticker-item">Git <span>↑ daily</span></span>
+    <span class="ticker-item">Python <span>↑ active</span></span>
+    <span class="ticker-item">SQL <span>↑ active</span></span>
+    <span class="ticker-item">Apache Spark <span>↑ learning</span></span>
+    <span class="ticker-item">dbt <span>↑ active</span></span>
+    <span class="ticker-item">BigQuery <span>↑ active</span></span>
+    <span class="ticker-item">Dataiku <span>↑ 3yr+</span></span>
+    <span class="ticker-item">PowerBI <span>↑ active</span></span>
+    <span class="ticker-item">GCP <span>↑ active</span></span>
+    <span class="ticker-item">Docker <span>↑ active</span></span>
+    <span class="ticker-item">Pub/Sub <span>↑ active</span></span>
+    <span class="ticker-item">Pandas <span>↑ daily</span></span>
+    <span class="ticker-item">Git <span>↑ daily</span></span>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">Technical stack</div>
+  <div class="section-title">What I work with</div>
+  <div class="section-sub">3+ years of hands-on experience across the full data lifecycle</div>
+  <div class="skills-grid">
+    <div class="skill-cat">
+      <div class="cat-label">Data & Analytics</div>
+      <div class="skill-tags">
+        <div class="skill-tag">SQL</div>
+        <div class="skill-tag">Python · Pandas</div>
+        <div class="skill-tag">Data Engineering</div>
+        <div class="skill-tag">Data Analysis</div>
+        <div class="skill-tag">Business Intelligence</div>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <div class="cat-label">Tools & Platforms</div>
+      <div class="skill-tags">
+        <div class="skill-tag">Dataiku</div>
+        <div class="skill-tag">PowerBI</div>
+        <div class="skill-tag">Apache Spark</div>
+        <div class="skill-tag">dbt</div>
+        <div class="skill-tag">Google BigQuery</div>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <div class="cat-label">Cloud & Infra</div>
+      <div class="skill-tags">
+        <div class="skill-tag">Google Cloud Platform</div>
+        <div class="skill-tag">Pub/Sub</div>
+        <div class="skill-tag">Docker</div>
+        <div class="skill-tag">Git</div>
+        <div class="skill-tag">ETL Architecture</div>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <div class="cat-label">Programming</div>
+      <div class="skill-tags">
+        <div class="skill-tag">Python</div>
+        <div class="skill-tag">Java</div>
+        <div class="skill-tag">SQL</div>
+        <div class="skill-tag">REST APIs</div>
+        <div class="skill-tag">HTML · JS</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stack-viz">
+    <div>
+      <div class="section-label" style="margin-bottom:1.4rem">Proficiency</div>
+      <div class="bar-group" id="bars">
+        <div class="bar-item">
+          <div class="bar-label"><span>SQL</span><span>95%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="0.95"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label"><span>Python</span><span>88%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="0.88"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label"><span>Dataiku</span><span>90%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="0.90"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label"><span>PowerBI</span><span>85%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="0.85"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label"><span>GCP · BigQuery</span><span>78%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="0.78"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label"><span>dbt · Spark</span><span>65%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="0.65"></div></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-label" style="margin-bottom:1.4rem">Certifications</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:1.2rem">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#f59e0b;letter-spacing:.08em;margin-bottom:.5rem">IN PROGRESS</div>
+          <div style="font-size:14px;color:var(--white);font-weight:500;margin-bottom:.3rem">Data Engineering Certification</div>
+          <div style="font-size:12px;color:var(--muted)">Spark · dbt · BigQuery · Cloud Architecture</div>
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:1.2rem">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#5a6180;letter-spacing:.08em;margin-bottom:.5rem">EDUCATION</div>
+          <div style="font-size:14px;color:var(--white);font-weight:500;margin-bottom:.3rem">Telecommunication & Computer Science Engineering</div>
+          <div style="font-size:12px;color:var(--muted)">Bachelor's degree</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" style="padding-top:0">
+  <div class="section-label">Career</div>
+  <div class="section-title">Experience</div>
+  <div class="section-sub">Consulting across aerospace, insurance, and enterprise data</div>
+  <div class="exp-list">
+    <div class="exp-card open" onclick="toggleExp(this)">
+      <div class="exp-header">
+        <div>
+          <div class="exp-role">Data Analyst & Data Engineer</div>
+          <div class="exp-co">Tinvention · Thales Alenia Space</div>
+        </div>
+        <div style="display:flex;gap:1rem;align-items:center">
+          <div class="exp-period">2022 – present</div>
+          <div class="exp-toggle">+</div>
+        </div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-content">
+          <div class="exp-item">Built and maintained Dataiku pipelines consolidating multi-source monthly operational data for reliable reporting</div>
+          <div class="exp-item">Developed Python logic for workforce and project performance data — delivery timelines, resource allocation, incident tracking</div>
+          <div class="exp-item">Created validation workflows ensuring stakeholders could trust the numbers before acting on them</div>
+          <div class="exp-item">Designed PowerBI dashboards tracking core KPIs, used regularly by management for strategic decisions</div>
+          <div class="exp-item">Primary interface between technical implementation and business stakeholders — translating data into actionable narratives</div>
+          <div class="exp-item">3+ year client relationship through consistent delivery and honest expectation management</div>
+          <div class="exp-tools">
+            <span class="tool-badge">Python</span>
+            <span class="tool-badge">Pandas</span>
+            <span class="tool-badge">SQL</span>
+            <span class="tool-badge">Dataiku</span>
+            <span class="tool-badge">PowerBI</span>
+            <span class="tool-badge">Git</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-card" onclick="toggleExp(this)">
+      <div class="exp-header">
+        <div>
+          <div class="exp-role">Data Engineer</div>
+          <div class="exp-co">Tinvention · Generali Insurance</div>
+        </div>
+        <div style="display:flex;gap:1rem;align-items:center">
+          <div class="exp-period">2022</div>
+          <div class="exp-toggle">+</div>
+        </div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-content">
+          <div class="exp-item">ETL pipeline implementation on GCP, supporting data movement across enterprise systems</div>
+          <div class="exp-item">Pub/Sub for event-driven data ingestion across distributed systems</div>
+          <div class="exp-item">Java components for the Load phase of ETL workflows into BigQuery</div>
+          <div class="exp-item">Artifact deployment and release processes in a structured enterprise environment</div>
+          <div class="exp-tools">
+            <span class="tool-badge">Java</span>
+            <span class="tool-badge">GCP</span>
+            <span class="tool-badge">BigQuery</span>
+            <span class="tool-badge">Pub/Sub</span>
+            <span class="tool-badge">Git</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-card" onclick="toggleExp(this)">
+      <div class="exp-header">
+        <div>
+          <div class="exp-role">Technical Onboarding</div>
+          <div class="exp-co">Tinvention</div>
+        </div>
+        <div style="display:flex;gap:1rem;align-items:center">
+          <div class="exp-period">6 months</div>
+          <div class="exp-toggle">+</div>
+        </div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-content">
+          <div class="exp-item">Intensive program covering Java backend, SQL, REST APIs, Spring Framework</div>
+          <div class="exp-item">DevOps basics — Git, Docker, Apache Tomcat, CI practices</div>
+          <div class="exp-item">Agile methodology and client-facing communication training</div>
+          <div class="exp-tools">
+            <span class="tool-badge">Java</span>
+            <span class="tool-badge">SQL</span>
+            <span class="tool-badge">Spring</span>
+            <span class="tool-badge">Docker</span>
+            <span class="tool-badge">Git</span>
+            <span class="tool-badge">REST</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="padding-top:0">
+  <div class="section-label">Work</div>
+  <div class="section-title">Projects</div>
+  <div class="section-sub">Open source and personal data engineering work</div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-status status-wip">⬤ &nbsp;In progress</div>
+      <div class="project-title">DE Pipeline — Public Dataset</div>
+      <div class="project-desc">End-to-end data engineering pipeline on a public dataset. Ingestion → transformation → modelling → dashboard. Designed to demonstrate production patterns.</div>
+      <div class="project-stack">
+        <span class="p-tag">dbt</span>
+        <span class="p-tag">BigQuery</span>
+        <span class="p-tag">Python</span>
+        <span class="p-tag">GCP</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-status status-wip">⬤ &nbsp;In progress</div>
+      <div class="project-title">Web Scraper + Data Pipeline</div>
+      <div class="project-desc">Documented scraping pipeline with clean data models downstream. Includes responsible data collection practices and structured output schemas.</div>
+      <div class="project-stack">
+        <span class="p-tag">Python</span>
+        <span class="p-tag">Pandas</span>
+        <span class="p-tag">SQL</span>
+        <span class="p-tag">Docker</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-status" style="color:var(--muted)">○ &nbsp;Planned</div>
+      <div class="project-title">Spark Processing — Large Scale</div>
+      <div class="project-desc">Distributed data processing project using Apache Spark. Showcasing performance optimisation and partitioning strategies on real-world-sized datasets.</div>
+      <div class="project-stack">
+        <span class="p-tag">Apache Spark</span>
+        <span class="p-tag">Python</span>
+        <span class="p-tag">BigQuery</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="padding-top:0">
+  <div class="section-label">About</div>
+  <div class="section-title">How I work</div>
+  <div class="about-grid" style="margin-top:2.5rem">
+    <div class="about-text">
+      <p>I've spent the last few years <strong>embedded in client environments</strong> — not just delivering technical work, but understanding the people behind the requests.</p>
+      <p>I spent as much time <strong>explaining data to people as building it</strong> — and found that's where the real value gets created. A pipeline no one trusts is a pipeline no one uses.</p>
+      <p>Currently building toward <strong>full-remote</strong> opportunities in data engineering and analytics engineering. If you're working on something interesting where clear thinking matters more than impressive jargon, let's talk.</p>
+      <div style="margin-top:1.6rem">
+        <a href="https://linkedin.com/in/lucabrs" class="btn btn-primary" style="display:inline-block">Connect on LinkedIn ↗</a>
+      </div>
+    </div>
+    <div>
+      <div class="about-stats">
+        <div class="stat-box">
+          <div class="stat-num">3<span class="unit">+</span></div>
+          <div class="stat-label">Years consulting</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Enterprise clients</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">10<span class="unit">+</span></div>
+          <div class="stat-label">Technologies</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">🌍</div>
+          <div class="stat-label">Open to remote</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="https://github.com/LucaBRS">github.com/LucaBRS</a>
+    <a href="https://linkedin.com/in/lucabrs">LinkedIn</a>
+    <a href="mailto:luca@email.com">Email</a>
+  </div>
+  <div class="footer-note">Data engineer who makes sure the work actually changes how people think.</div>
+</footer>
+
+<script>
+// Glow follow
+document.addEventListener('mousemove', e => {
+  const g = document.getElementById('glow');
+  g.style.left = e.clientX + 'px';
+  g.style.top = e.clientY + 'px';
+});
+
+// Accordion
+function toggleExp(el) {
+  el.classList.toggle('open');
+}
+
+// Animate bars on scroll
+const bars = document.querySelectorAll('.bar-fill');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.transform = `scaleX(${e.target.dataset.w})`;
+    }
+  });
+}, { threshold: 0.1 });
+bars.forEach(b => {
+  b.style.transition = `transform ${0.8 + Math.random() * 0.6}s cubic-bezier(.16,1,.3,1) ${Math.random() * 0.3}s`;
+  observer.observe(b);
+});
+
+// Animate pipeline dots
+const svg = document.getElementById('pipeline-svg');
+if (svg) {
+  const paths = [
+    { el: 'dot1', path: [{x:10,y:52},{x:60,y:52},{x:110,y:52},{x:150,y:80},{x:170,y:110}] },
+    { el: 'dot2', path: [{x:10,y:112},{x:60,y:112},{x:110,y:112},{x:150,y:112},{x:170,y:112}] },
+    { el: 'dot3', path: [{x:10,y:172},{x:60,y:172},{x:110,y:172},{x:150,y:140},{x:170,y:115}] },
+    { el: 'dot4', path: [{x:275,y:111},{x:310,y:111},{x:330,y:111}] },
+    { el: 'dot5', path: [{x:380,y:144},{x:380,y:200},{x:330,y:200},{x:275,y:190},{x:165,y:190}] },
+    { el: 'dot6', path: [{x:380,y:144},{x:380,y:350},{x:330,y:350},{x:275,y:350},{x:165,y:350}] },
+  ];
+
+  const dotState = paths.map(p => ({ t: Math.random(), speed: 0.003 + Math.random() * 0.003 }));
+
+  function lerp(a, b, t) { return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t }; }
+
+  function getPos(pts, t) {
+    const n = pts.length - 1;
+    const seg = Math.min(Math.floor(t * n), n - 1);
+    const lt = (t * n) - seg;
+    return lerp(pts[seg], pts[seg + 1], lt);
+  }
+
+  function animateDots() {
+    paths.forEach((p, i) => {
+      dotState[i].t += dotState[i].speed;
+      if (dotState[i].t > 1) dotState[i].t = 0;
+      const pos = getPos(p.path, dotState[i].t);
+      const dot = document.getElementById(p.el);
+      if (dot) {
+        dot.setAttribute('cx', pos.x);
+        dot.setAttribute('cy', pos.y);
+      }
+    });
+    requestAnimationFrame(animateDots);
+  }
+  animateDots();
+}
+</script>
+</body>
+</html>
