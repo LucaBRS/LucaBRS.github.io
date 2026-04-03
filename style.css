@@ -124,10 +124,14 @@ footer{border-top:1px solid var(--border);padding:2.5rem;text-align:center}
 .footer-links a:hover{color:var(--cyan)}
 .footer-note{font-size:12px;color:var(--border2);font-family:'JetBrains Mono',monospace}
 
+/* PHOTO */
+.hero-photo{width:56px;height:56px;border-radius:50%;object-fit:cover;border:1.5px solid var(--border2);margin-bottom:1.2rem;display:block}
+
 /* RESPONSIVE */
 @media(max-width:768px){
   .hero-grid,.about-grid,.stack-viz{grid-template-columns:1fr}
-  .pipeline-wrap{display:none}
+  .pipeline-wrap{display:block}
+  #pipeline-svg{height:280px}
   nav{padding:1rem 1.5rem}
   section{padding:4rem 1.5rem}
   .hero{padding:5rem 1.5rem 3rem}
