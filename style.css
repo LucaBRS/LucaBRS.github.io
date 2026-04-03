@@ -125,7 +125,9 @@ footer{border-top:1px solid var(--border);padding:2.5rem;text-align:center}
 .footer-note{font-size:12px;color:var(--border2);font-family:'JetBrains Mono',monospace}
 
 /* PHOTO */
-.hero-photo{width:56px;height:56px;border-radius:50%;object-fit:cover;border:1.5px solid var(--border2);margin-bottom:1.2rem;display:block}
+.hero-identity{display:flex;align-items:center;gap:12px;margin-bottom:1.2rem}
+.hero-photo{width:56px;height:56px;border-radius:50%;object-fit:cover;border:1.5px solid var(--border2);flex-shrink:0}
+.hero-name{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--white);letter-spacing:0.04em}
 
 /* RESPONSIVE */
 @media(max-width:768px){
